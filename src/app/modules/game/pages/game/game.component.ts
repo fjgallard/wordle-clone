@@ -27,6 +27,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.targetWord);
   }
 
   private addGuessToBoard(guess: Guess) {
