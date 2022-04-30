@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { GameModule } from '../game.module';
 import { Clue, ClueType } from '../interfaces/clue.interface';
 import { Guess } from '../interfaces/guess.interface';
 
-@Injectable({
-  providedIn: GameModule
-})
+@Injectable()
 export class GameService {
 
   constructor() { }
