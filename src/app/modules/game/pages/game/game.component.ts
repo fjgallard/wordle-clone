@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameBoard } from '@modules/game/interfaces/gameboard.interface';
 import { Guess } from '@modules/game/interfaces/guess.interface';
+import { GameService } from '@modules/game/services/game.service';
 
 @Component({
   selector: 'app-game',
@@ -15,7 +16,7 @@ export class GameComponent implements OnInit {
   guessesRemaining: number;
   targetWord!: string;
 
-  constructor() {
+  constructor(private gameService: GameService) {
     this.isGameOver = false;
 
     this.numberOfGuesses = 6;
@@ -31,6 +32,7 @@ export class GameComponent implements OnInit {
   private addGuessToBoard(guess: Guess) {
     const index = this.numberOfGuesses - this.guessesRemaining;
     this.gameBoard.guesses[index] = guess;
+    this.guessesRemaining--;
   }
 
   private initGameBoard() {
@@ -47,9 +49,8 @@ export class GameComponent implements OnInit {
   }
 
   checkUserGuess(word: string) {
-    // TODO
-    // const guess = this.gameService.checkGuess(word, this.targetWord);
-    // this.addGuessToBoard(guess);
+    const guess = this.gameService.checkGuess(word, this.targetWord);
+    this.addGuessToBoard(guess);
   }
 
 }
