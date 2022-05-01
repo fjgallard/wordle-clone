@@ -23,6 +23,18 @@ export class GameComponent implements OnInit {
     return this.guessForm.get('pendingGuess')?.value;
   }
 
+  set pendingGuess(guess: string) {
+    this.guessForm.get('pendingGuess')?.setValue(guess);
+  }
+
+  set latestClue(clue: string) {
+    if (this.pendingGuess.length >= 5) {
+      return;
+    }
+
+    this.pendingGuess = this.pendingGuess + clue;
+  }
+
   constructor(
     private fb: FormBuilder,
     private gameService: GameService
@@ -66,9 +78,41 @@ export class GameComponent implements OnInit {
     });
   }
 
+  private deleteLatestClue() {
+    if (this.pendingGuess.length) {
+      this.pendingGuess = this.pendingGuess.substring(0, this.pendingGuess.length - 1);
+    }
+  }
+
   checkUserGuess(word: string) {
     const guess = this.gameService.checkGuess(word, this.targetWord);
     this.addGuessToBoard(guess);
+  }
+
+  private updateLatestClue(key: string) {
+    key = key.toLowerCase();
+
+    const match = key.match('^[a-z]*');
+
+    if (match && !match[0]) {
+      return;
+    }
+
+    return this.latestClue = key;
+  }
+
+  inputClue(key: string) {
+    console.log('keyboard emits:', key);
+
+    if (key === 'Backspace') {
+      return this.deleteLatestClue();
+    }
+
+    if (key.length > 1) {
+      return;
+    }
+
+    this.updateLatestClue(key);
   }
 
   // Temporary

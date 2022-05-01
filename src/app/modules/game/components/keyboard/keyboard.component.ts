@@ -21,13 +21,12 @@ export class KeyboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     this.onKeyPress(event?.key);
   }
 
   onKeyPress(key: string) {
-    console.log(key);
     this.keyPressed.emit(key);
   }
 
