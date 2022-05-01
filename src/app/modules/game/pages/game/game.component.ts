@@ -19,6 +19,10 @@ export class GameComponent implements OnInit {
   guessesRemaining: number;
   targetWord!: string;
 
+  get guesses() {
+    return this.gameBoard.guesses;
+  }
+
   get pendingGuess() {
     return this.guessForm.get('pendingGuess')?.value;
   }
@@ -57,6 +61,9 @@ export class GameComponent implements OnInit {
     const index = this.numberOfGuesses - this.guessesRemaining;
     this.gameBoard.guesses[index] = guess;
     this.guessesRemaining--;
+    this.clearForm();
+
+    console.log(this.gameBoard.guesses);
   }
 
   private initGameBoard() {
@@ -78,15 +85,14 @@ export class GameComponent implements OnInit {
     });
   }
 
+  private clearForm() {
+    this.guessForm.get('pendingGuess')?.setValue('');
+  }
+
   private deleteLatestClue() {
     if (this.pendingGuess.length) {
       this.pendingGuess = this.pendingGuess.substring(0, this.pendingGuess.length - 1);
     }
-  }
-
-  checkUserGuess(word: string) {
-    const guess = this.gameService.checkGuess(word, this.targetWord);
-    this.addGuessToBoard(guess);
   }
 
   private updateLatestClue(key: string) {
@@ -101,11 +107,20 @@ export class GameComponent implements OnInit {
     return this.latestClue = key;
   }
 
+  checkUserGuess(word: string) {
+    const guess = this.gameService.checkGuess(word, this.targetWord);
+    this.addGuessToBoard(guess);
+  }
+
   inputClue(key: string) {
     console.log('keyboard emits:', key);
 
     if (key === 'Backspace') {
       return this.deleteLatestClue();
+    }
+
+    if (key === 'Enter') {
+      return this.checkUserGuess(this.pendingGuess);
     }
 
     if (key.length > 1) {
