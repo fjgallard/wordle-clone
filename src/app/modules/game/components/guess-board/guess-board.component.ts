@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Guess } from '@modules/game/interfaces/guess.interface';
 
 @Component({
   selector: 'app-guess-board',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./guess-board.component.scss']
 })
 export class GuessBoardComponent implements OnInit {
+
+  @Input()
+  guesses: Guess[] = [];
 
   constructor() { }
 
