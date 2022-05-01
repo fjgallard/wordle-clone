@@ -19,7 +19,7 @@ export class GameComponent implements OnInit {
   guessesRemaining: number;
   targetWord!: string;
 
-  get currentGuess() {
+  get pendingGuess() {
     return this.guessForm.get('pendingGuess')?.value;
   }
 
@@ -73,7 +73,7 @@ export class GameComponent implements OnInit {
 
   // Temporary
   displayCurrentGuess() {
-    console.log(this.currentGuess);
+    console.log(this.pendingGuess);
   }
 
 }

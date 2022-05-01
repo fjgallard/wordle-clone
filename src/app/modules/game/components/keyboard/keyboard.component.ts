@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   OnInit,
   Output
 } from '@angular/core';
@@ -20,7 +21,13 @@ export class KeyboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.onKeyPress(event?.key);
+  }
+
   onKeyPress(key: string) {
+    console.log(key);
     this.keyPressed.emit(key);
   }
 
