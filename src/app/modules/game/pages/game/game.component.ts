@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GameBoard } from '@modules/game/interfaces/gameboard.interface';
 import { Guess } from '@modules/game/interfaces/guess.interface';
 import { GameService } from '@modules/game/services/game.service';
@@ -10,13 +11,22 @@ import { GameService } from '@modules/game/services/game.service';
 })
 export class GameComponent implements OnInit {
 
+  guessForm!: FormGroup;
+
   isGameOver: boolean;
   gameBoard!: GameBoard;
   numberOfGuesses: number;
   guessesRemaining: number;
   targetWord!: string;
 
-  constructor(private gameService: GameService) {
+  get currentGuess() {
+    return this.guessForm.get('pendingGuess')?.value;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private gameService: GameService
+  ) {
     this.isGameOver = false;
 
     this.numberOfGuesses = 6;
@@ -24,6 +34,7 @@ export class GameComponent implements OnInit {
 
     this.initGameBoard();
     this.initWord();
+    this.initGuessForm();
   }
 
   ngOnInit(): void {
@@ -49,9 +60,20 @@ export class GameComponent implements OnInit {
     this.targetWord = 'chaft';
   }
 
+  private initGuessForm() {
+    this.guessForm = this.fb.group({
+      pendingGuess: ['' , Validators.required]
+    });
+  }
+
   checkUserGuess(word: string) {
     const guess = this.gameService.checkGuess(word, this.targetWord);
     this.addGuessToBoard(guess);
+  }
+
+  // Temporary
+  displayCurrentGuess() {
+    console.log(this.currentGuess);
   }
 
 }

@@ -1,1 +1,10 @@
+<!-- Temporary input field -->
+<form [formGroup]="guessForm">
+  <input
+  formControlName="pendingGuess"
+  type="text"
+  maxlength="5"
+  (input)="displayCurrentGuess()">
+</form>
+
 <app-keyboard></app-keyboard>
