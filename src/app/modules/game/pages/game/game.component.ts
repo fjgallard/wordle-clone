@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Clue, ClueType } from '@modules/game/interfaces/clue.interface';
 import { GameBoard } from '@modules/game/interfaces/gameboard.interface';
 import { Guess } from '@modules/game/interfaces/guess.interface';
 import { GameService } from '@modules/game/services/game.service';
@@ -16,6 +17,7 @@ export class GameComponent implements OnInit {
   isGameOver: boolean;
   gameBoard!: GameBoard;
   numberOfGuesses: number;
+  numberOfLetters: number;
   guessesRemaining: number;
   targetWord!: string;
 
@@ -46,6 +48,7 @@ export class GameComponent implements OnInit {
     this.isGameOver = false;
 
     this.numberOfGuesses = 6;
+    this.numberOfLetters = 5;
     this.guessesRemaining = 6;
 
     this.initGameBoard();
@@ -68,8 +71,14 @@ export class GameComponent implements OnInit {
 
   private initGameBoard() {
     const guesses: Guess[] = [];
+    const clues: Clue[] = [];
+
+    for (let index = 0; index < this.numberOfLetters; index++) {
+      clues.push({ letter: '', type: ClueType.noMatch });
+    };
+
     for (let index = 0; index < this.numberOfGuesses; index++) {
-      guesses.push({ clues: [] });
+      guesses.push({ clues });
     };
 
     this.gameBoard = { guesses };
