@@ -1,6 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Clue, ClueType } from '@modules/game/interfaces/clue.interface';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+
+import {
+  Clue,
+  ClueType
+} from '@modules/game/interfaces/clue.interface';
+
 import { GameBoard } from '@modules/game/interfaces/gameboard.interface';
 import { Guess } from '@modules/game/interfaces/guess.interface';
 import { GameService } from '@modules/game/services/game.service';
@@ -60,18 +73,21 @@ export class GameComponent implements OnInit {
     console.log(this.targetWord);
   }
 
+  private updateGuessToBoard(guess: Guess) {
+    const index = this.numberOfGuesses - this.guessesRemaining;
+    this.gameBoard.guesses[index] = guess;
+  }
+
   private addGuessToBoard(guess: Guess) {
     const index = this.numberOfGuesses - this.guessesRemaining;
     this.gameBoard.guesses[index] = guess;
     this.guessesRemaining--;
     this.clearForm();
-
-    console.log(this.gameBoard.guesses);
   }
 
   private initGameBoard() {
-    const guesses: Guess[] = [];
     const clues: Clue[] = [];
+    const guesses: Guess[] = [];
 
     for (let index = 0; index < this.numberOfLetters; index++) {
       clues.push({ letter: '', type: ClueType.noMatch });
@@ -113,7 +129,8 @@ export class GameComponent implements OnInit {
       return;
     }
 
-    return this.latestClue = key;
+    this.latestClue = key;
+    this.updateGuessToBoard(this.gameService.convertWordToGuess(this.pendingGuess, this.numberOfLetters));
   }
 
   checkUserGuess(word: string) {

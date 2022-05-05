@@ -15,6 +15,19 @@ export class GameService {
     return this.returnPartialMatch(word, targetWord);
   }
 
+  convertWordToGuess(word: string, maxLength: number): Guess {
+    const clues: Clue[] = [];
+    for (let index = 0; index < word.length; index++) {
+      clues.push({ letter: word[index], type: ClueType.noMatch });
+    };
+
+    for (let index = word.length; index < maxLength; index++) {
+      clues.push({ letter: '', type: ClueType.noMatch });
+    };
+
+    return { clues };
+  }
+
   private checkLetterPositioning(attemptLetter: string, targetWord: string, index: number): ClueType {
     if (!targetWord.includes(attemptLetter)) {
       return ClueType.noMatch;
