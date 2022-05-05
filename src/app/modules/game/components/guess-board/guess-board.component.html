@@ -1,3 +1,10 @@
 <div class="guesses">
-  <div *ngFor="let guess of guesses" class="guess"></div>
+  <div *ngFor="let guess of guesses" class="guess">
+    <input
+    *ngFor="let clue of guess.clues"
+    [value]="clue.letter"
+    type="text"
+    class="tile"
+    disabled>
+  </div>
 </div>
