@@ -3,6 +3,7 @@
     <input
     *ngFor="let clue of guess.clues"
     [value]="clue.letter"
+    [ngClass]="{ 'tile--partial-match': clue.type === 1, 'tile--full-match': clue.type === 2 }"
     type="text"
     class="tile"
     disabled>
