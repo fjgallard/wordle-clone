@@ -156,9 +156,4 @@ export class GameComponent implements OnInit {
     this.updateLatestClue(key);
   }
 
-  // Temporary
-  displayCurrentGuess() {
-    console.log(this.pendingGuess);
-  }
-
 }
