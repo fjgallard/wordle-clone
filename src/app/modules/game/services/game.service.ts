@@ -28,6 +28,39 @@ export class GameService {
     return { clues };
   }
 
+  convertGuessToWord(guess: Guess) {
+    const clues = guess.clues;
+    let word = '';
+    clues.forEach(clue => {
+      word += clue;
+    });
+
+    return word;
+  }
+
+  checkGuessWin(guess: Guess) {
+    const clues = guess.clues;
+    let isWin = true;
+    clues.forEach(clue => {
+      if (clue.type !== ClueType.fullMatch) {
+        isWin = false;
+      }
+    });
+
+    return isWin;
+  }
+
+  isGameWin(board: Guess[]) {
+    let isWin = false;
+    board.forEach(guess => {
+      if (this.checkGuessWin(guess)) {
+        isWin = true;
+      }
+    });
+
+    return isWin;
+  }
+
   private checkLetterPositioning(attemptLetter: string, targetWord: string, index: number): ClueType {
     if (!targetWord.includes(attemptLetter)) {
       return ClueType.noMatch;

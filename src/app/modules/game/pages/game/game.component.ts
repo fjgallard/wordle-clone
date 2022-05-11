@@ -136,10 +136,25 @@ export class GameComponent implements OnInit {
   checkUserGuess(word: string) {
     const guess = this.gameService.checkGuess(word, this.targetWord);
     this.addGuessToBoard(guess);
+
+    if (this.gameService.isGameWin(this.guesses)) {
+      console.log('game win!');
+      this.isGameOver = true;
+    }
+
+    if (this.guessesRemaining <= 0) {
+      console.log('no more guesses!');
+      this.isGameOver = true;
+    }
   }
 
   inputClue(key: string) {
     console.log('keyboard emits:', key);
+
+    // Disable input on game over
+    if (this.isGameOver) {
+      return;
+    }
 
     if (key === 'Backspace') {
       return this.deleteLatestClue();
