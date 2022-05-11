@@ -118,6 +118,8 @@ export class GameComponent implements OnInit {
     if (this.pendingGuess.length) {
       this.pendingGuess = this.pendingGuess.substring(0, this.pendingGuess.length - 1);
     }
+
+    this.updateGuessToBoard(this.gameService.convertWordToGuess(this.pendingGuess, this.numberOfLetters));
   }
 
   private updateLatestClue(key: string) {
