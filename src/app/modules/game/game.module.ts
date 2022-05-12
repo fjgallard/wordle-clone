@@ -6,6 +6,8 @@ import { GameService } from './services/game.service';
 import { KeyboardComponent } from './components/keyboard/keyboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GuessBoardComponent } from './components/guess-board/guess-board.component';
+import { DataService } from './services/data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -19,8 +21,9 @@ import { GuessBoardComponent } from './components/guess-board/guess-board.compon
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    GameRoutingModule
+    GameRoutingModule,
+    HttpClientModule
   ],
-  providers: [GameService],
+  providers: [DataService, GameService],
 })
 export class GameModule { }

@@ -16,6 +16,7 @@ import {
 
 import { GameBoard } from '@modules/game/interfaces/gameboard.interface';
 import { Guess } from '@modules/game/interfaces/guess.interface';
+import { DataService } from '@modules/game/services/data.service';
 import { GameService } from '@modules/game/services/game.service';
 
 @Component({
@@ -56,6 +57,7 @@ export class GameComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dataService: DataService,
     private gameService: GameService
   ) {
     this.isGameOver = false;
@@ -70,7 +72,6 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.targetWord);
   }
 
   private updateGuessToBoard(guess: Guess) {
@@ -100,8 +101,16 @@ export class GameComponent implements OnInit {
     this.gameBoard = { guesses };
   }
 
-  private initWord() {
-    this.targetWord = 'chaft';
+  private async initWord() {
+    const words = await this.dataService.readWordsFile() || [];
+    if (!words.length) {
+      console.error('No words?');
+      return this.targetWord = 'chaft';
+    }
+
+    const randomWordIndex = Math.floor(Math.random() * words?.length);
+    console.log('target word', words[randomWordIndex]);
+    return this.targetWord = words[randomWordIndex];
   }
 
   private initGuessForm() {
